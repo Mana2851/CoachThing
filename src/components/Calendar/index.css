@@ -13,31 +13,19 @@ h3 {
 	text-align: center;
 }
 
-.calendarID {
-	border: solid;
+div.ui.container { 
+	
 }
 
-.columnCalender {
+div.ui.divided.middle.aligned.list {
+	float: right;
+}
+
+div.react-calendar {
+	margin: 1%;
+	width: 60%;
 	float: left;
-	padding: 0;
-	margin: 0;
-	border: solid;
 }
 
-.addedInfo {
-	list-style-type: none;
-	padding: 0;
-	text-align: center;
-}
 
-.columns {
-	float: left;
-	padding: 0;
-	padding-bottom: 1.25%;
-	padding-left: 1%;
-	padding-right: 0.5%;
-	margin: 0;
-	border: solid;
-	border-radius: 25px;
-}
 
