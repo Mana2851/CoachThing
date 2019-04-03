@@ -1,25 +1,109 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Calendar from 'react-calendar';
+import { Button, Checkbox, Form } from 'semantic-ui-react'
+import { Icon, Modal } from 'semantic-ui-react'
 
-import ModalExampleMultiple from './MultipleModals.js';
 import './index.css';
- 
-export default class MyCalendar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { item: props.item, key: props.id }
-  }
-  
-  onClickDay = (value) => alert('Select the XXXXXX and the workout', value)
-  
-  render()
-  {
-	  return(
-	  <Calendar
-          value={this.state.date}
-		  onClickDay = {this.onClickDay}/>
-	  );
+
+class NestedModal extends Component {
+  state = { open: false }
+
+  open = () => this.setState({ open: true })
+  close = () => this.setState({ open: false })
+
+  render() {
+    const { open } = this.state
+
+    return (
+      <Modal
+        open={open}
+        onOpen={this.open}
+        onClose={this.close}
+        size='small'
+        trigger={
+          <Button primary icon>
+            Proceed <Icon name='right chevron' />
+          </Button>
+        }
+      >
+        <Modal.Header>Modal #2</Modal.Header>
+        <Modal.Content>
+          <p>That's everything!</p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button icon='check' content='All Done' onClick={this.close} />
+        </Modal.Actions>
+      </Modal>
+    )
   }
 }
 
+class CalendarComponent extends Component {
+  constructor(props)
+  {
+    super(props)
+    this.state = { open: props.open, onChange: props.onChange, refference: props.refference }
+  }
+
+  open = () => this.setState({ open: true })
+  close = () => this.setState({ open: false })
+
+  render(){
+    return(
+      <Modal open={this.props.open} onOpen={this.open} onClose={() => this.props.onChange(this.props.refference, false)}>
+        <Modal.Header>Modal #1</Modal.Header>
+        <Modal.Content image>
+        <div className='image'>
+          <Icon name='right arrow' />
+        </div>
+        <Modal.Description>
+          <p>We have more to share with you. Follow us along to modal 2</p>
+        </Modal.Description>
+          <Form>
+            <Form.Field>
+              <label>First Name</label>
+              <input placeholder='First Name' />
+            </Form.Field>
+            <Form.Field>
+              <label>Last Name</label>
+              <input placeholder='Last Name' />
+            </Form.Field>
+            <Form.Field>
+              <Checkbox label='I agree to the Terms and Conditions' />
+            </Form.Field>
+            <Button type='submit'>Submit</Button>
+          </Form>
+        </Modal.Content>
+        <Modal.Actions>
+          <NestedModal/>
+        </Modal.Actions>
+      </Modal>
+    )
+  }
+}
+
+export default class MyCalendar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { item: props.item, key: props.id, showModal: false }
+  }
+
+  changeOpen(refference, bool)
+  {
+    refference.setState({ showModal: bool })
+  }
+
+  render()
+  {
+    const showModal = this.state.showModal
+	  return(
+	  <div>
+	  <Calendar
+      onClickDay={() => {this.changeOpen(this, true)}}
+    />
+    <CalendarComponent open={showModal} onChange={this.changeOpen} refference={this}/>
+	  </div>
+	  );
+  }
+}
