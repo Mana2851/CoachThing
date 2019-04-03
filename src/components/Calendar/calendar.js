@@ -4,6 +4,8 @@ import Calendar from 'react-calendar';
 import { Button, Checkbox, Form } from 'semantic-ui-react'
 import { Icon, Modal } from 'semantic-ui-react'
 
+// import MultiModalPopUp from './MultiModalPopUp.js'; // create a new component for the modal pop up
+import ListDivided from './DividedList.js';
 import './index.css';
 
 class NestedModal extends Component {
@@ -49,29 +51,23 @@ class CalendarComponent extends Component {
   open = () => this.setState({ open: true })
   close = () => this.setState({ open: false })
 
+  //The content of this return should be imported form a new file named MultiModalPopUp
   render(){
     return(
       <Modal open={this.props.open} onOpen={this.open} onClose={() => this.props.onChange(this.props.refference, false)}>
         <Modal.Header>Modal #1</Modal.Header>
-        <Modal.Content image>
-        <div className='image'>
-          <Icon name='right arrow' />
-        </div>
-        <Modal.Description>
-          <p>We have more to share with you. Follow us along to modal 2</p>
-        </Modal.Description>
+        <Modal.Content>
           <Form>
-            <Form.Field>
-              <label>First Name</label>
-              <input placeholder='First Name' />
-            </Form.Field>
-            <Form.Field>
-              <label>Last Name</label>
-              <input placeholder='Last Name' />
-            </Form.Field>
-            <Form.Field>
-              <Checkbox label='I agree to the Terms and Conditions' />
-            </Form.Field>
+		    <Form.Field>
+			  <div class ="list-PopUpDiv">
+		        <ListDivided>
+		        </ListDivided>
+			  </div>
+			  <div class ="list-PopUpDiv">
+		        <ListDivided>
+		        </ListDivided>
+			  </div>
+		    </Form.Field>
             <Button type='submit'>Submit</Button>
           </Form>
         </Modal.Content>
@@ -107,3 +103,5 @@ export default class MyCalendar extends React.Component {
 	  );
   }
 }
+
+
